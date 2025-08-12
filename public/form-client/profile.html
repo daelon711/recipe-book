@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script type="module" src="./assets/js/script.js"></script>
+    <title>profile</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h2>you are logged in</h2>
+            <button type="button" id="logout-btn">Logout</button>
+        </nav>
+        <h3>welcome <span id="username-display"></span></h3>
+        <h3>email: <span id="email-display"></span></h3>
+    </header>
+
+    <main>
+
+
+
+        <form id="add-recipe-form"><!-- change this to some semantic tag -->
+            <label for="recipe-input">Add a new recipe:</label>
+            <input type="text" id="title" placeholder="Enter recipe name" required>
+            <label for="recipe-description">Add a description:</label>
+
+            <input type="text" id="recipe-description" placeholder="Enter description" required>
+
+
+            <p>ingredients</p>
+            <button type='button' id='add-ingredient'>+</button>
+            <ul id="ingredients">
+                <li> <input type="text" placeholder="Enter ingredients" required>
+                    <button type='button' id='remove-ingredient'>-</button>
+                </li>
+                <!--  btn  while loaded and add it at the last li input of the list  -->
+            </ul>
+            <!-- add button "+" where input inside li is added so that values are sent in an array -->
+            <label for="recipe-instructions">Add instructions:</label>
+            <input type="text" id="recipe-instructions" placeholder="Enter instructions" required>
+            <!-- make sure this is in backend also -->
+            <button type="button" id="add-recipe-btn">Add Recipe</button>
+        </form>
+
+        <!-- edit function needed -->
+
+        <ul id="recipe-list">
+
+
+            </u>
+    </main>
+
+
+
+
+</body>
+
+</html>
