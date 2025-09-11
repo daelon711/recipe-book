@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade'); // links to users
             $table->string('title');
             $table->text('description');
-            $table->text('ingredients');
+            $table->json('ingredients'); //remmeber this new thingy storing an array
             $table->text('instructions');
             $table->timestamps();
         });

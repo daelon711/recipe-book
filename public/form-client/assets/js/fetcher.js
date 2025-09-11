@@ -1,6 +1,6 @@
 import { returnUrl, getCookie } from "./config.js";
 
-function apiRequest(path, body = null, method = "GET") {
+function apiRequest(path, method = "GET", body = null) {
     console.log("Calling API:", returnUrl(), path, buildOptions(method, body)); // <--- add this
 
     return fetch(`${returnUrl()}${path}`, buildOptions(method, body))
@@ -30,7 +30,8 @@ function buildOptions(method, body) {
         credentials: "include",
     };
 
-    if (["POST", "PUT", "PATCH", "DELETE"].includes(method.toUpperCase())) {
+    if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+        //method.toUpperCase()
         const token = getCookie("XSRF-TOKEN");
         if (token) {
             // Laravel expects this header (decoded automatically on backend)

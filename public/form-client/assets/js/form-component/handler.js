@@ -7,7 +7,7 @@ function registering(body) {
     apiRequest("/sanctum/csrf-cookie")
         .then(() => {
             // 2. THEN make your POST request to login/register
-            return apiRequest("/api/register", body, "POST");
+            return apiRequest("/api/register", "POST", body);
         })
         .then(() => {
             window.location.href = "profile.html";
@@ -26,7 +26,7 @@ function registering(body) {
 function logging(body) {
     apiRequest("/sanctum/csrf-cookie")
         .then(() => {
-            return apiRequest("/api/login", body, "POST");
+            return apiRequest("/api/login", "POST", body);
         })
         .then(() => {
             return apiRequest("/api/user"); // <--- confirm login worked
@@ -42,7 +42,7 @@ function logging(body) {
 }
 
 function logout() {
-    apiRequest("/api/logout", null, "POST")
+    apiRequest("/api/logout", "POST")
         .then(() => {
             localStorage.removeItem("user");
             window.location.href = "index.html";

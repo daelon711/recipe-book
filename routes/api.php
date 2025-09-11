@@ -20,7 +20,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/recipes', [RecipeController::class, 'store']);
     Route::get('/recipes/{id}', [RecipeController::class, 'show']);
     Route::put('/recipes/{id}', [RecipeController::class, 'update']);
-    // Route::delete('/recipes/{id}', [RecipeController::class, 'destroy']);
+    Route::delete('/recipes/{id}', [RecipeController::class, 'destroy']);
     // User profile details
 
 });

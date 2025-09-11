@@ -1,5 +1,10 @@
 import { apiRequest } from "../fetcher.js";
-import { renderProfile, renderRecipes, addInput } from "./renderer.js";
+import {
+    renderProfile,
+    renderRecipes,
+    grabData,
+    renderForm,
+} from "./renderer.js";
 
 function loadProfile() {
     // recipe owns both user and recipes in index function of    controller
@@ -7,7 +12,7 @@ function loadProfile() {
     apiRequest("/api/user")
         .then((user) => {
             renderProfile(user);
-            addInput();
+            renderForm();
             return apiRequest("/api/recipes");
         })
         .then((recipes) => {
@@ -18,35 +23,48 @@ function loadProfile() {
         });
 }
 
-function grabData() {
-    const title = document.querySelector("#title").value;
-    const description = document.querySelector("#recipe-description").value;
-    const ingredients = Array.from(
-        document.querySelectorAll("#ingredients li input")
-    ).map((input) => input.value); // make sure inputs values get here
-    const instructions = document.querySelector("#recipe-instructions").value;
-
-    return {
-        title: title,
-        description: description,
-        ingredients: ingredients,
-        instructions: instructions,
-    };
+function submitRecipe() {
+    const data = grabData();
+    console.log(data);
+    apiRequest("/api/recipes", "POST", data)
+        .then((recipes) => {
+            console.log("Recipe added:", recipes);
+            clearInput();
+            loadProfile();
+        })
+        .catch((error) => {
+            console.error("Error adding recipe:", error);
+        });
 }
 
-function submitRecipe() {
-    const form = document.querySelector("#add-recipe-form");
-    form.addEventListener("submit", (e) => {
+function clearInput() {
+    document.querySelector("#title").value = "";
+    document.querySelector("#recipe-description").value = "";
+    document.querySelector(
+        "#ingredients"
+    ).innerHTML = `<li> <input type="text" placeholder="Enter ingredients" required>
+                    <input type="text" placeholder="enter amount" required>
+                    <button type='button' id='remove-ingredient'>-</button>
+                </li>`;
+    document.querySelector("#recipe-instructions").value = "";
+}
+
+function deleteRecipe(id) {
+    const btn = document.querySelector(`button[data-id='${id}']`);
+    if (!btn) return; // button not in DOM yet
+    btn.addEventListener("click", function (e) {
         e.preventDefault();
-        const data = grabData();
-        apiRequest("/api/recipes", "POST", data)
-            .then((recipe) => {
-                console.log("Recipe added:", recipe);
+        const li = btn.closest("li");
+        li.remove();
+        apiRequest(`/api/recipes/${id}`, "DELETE")
+            .then(() => {
+                console.log("Recipe deleted:", id);
+                loadProfile();
             })
             .catch((error) => {
-                console.error("Error adding recipe:", error);
+                console.error("Error deleting recipe:", error);
             });
     });
 }
 
-export { loadProfile, grabData, submitRecipe };
+export { loadProfile, submitRecipe, deleteRecipe };

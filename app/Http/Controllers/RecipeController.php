@@ -42,7 +42,7 @@ class RecipeController extends Controller
         }
     }
 
-
+    //havent used show
 
     public function show($id)
     {
@@ -52,6 +52,8 @@ class RecipeController extends Controller
         }
         return response()->json($recipe);
     }
+
+
     public function destroy($id)
     {
         Log::warning("deleting a recipe");
@@ -65,15 +67,23 @@ class RecipeController extends Controller
         return response()->json(['message' => 'Recipe deleted successfully']);
     }
 
+
+
     public function rules()
     {
         return [
             'title' => 'required|string|min:2|max:255',
             'description' => 'required|string|min:2',
-            'ingredients' => 'required',
+            'ingredients' => 'required|array',
+            'ingredients.*.ingredient' => 'required|string|min:1',
+            'ingredients.*.amount' => 'required|string|min:1', //change to int
             'instructions' => 'required|string|min:2',
         ];
     }
+
+
+    // * means “for every index in the array”
+
     public function createRecipe($user, $data)
     {
         $recipe = new Recipe();

@@ -1,11 +1,11 @@
 import { logging, logout, registering } from "./form-component/handler.js";
 import { login, register } from "./form-component/renderer.js";
-import { loadProfile } from "./recipe-component/handler.js";
+import { loadProfile, submitRecipe } from "./recipe-component/handler.js";
 
 function init() {
     const registerForm = document.querySelector("#register-form");
     const loginForm = document.querySelector("#login-form");
-
+    const recipeForm = document.querySelector("#add-recipe-form");
     if (registerForm) {
         registerForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -24,6 +24,7 @@ function init() {
 
     if (window.location.pathname.includes("profile.html")) {
         loadProfile();
+
         const btn = document.querySelector("#logout-btn");
         console.log(btn);
         if (btn) {
@@ -33,6 +34,15 @@ function init() {
                 logout(); // from handler.js
             });
         }
+
+        if (recipeForm) {
+            const form = document.querySelector("#add-recipe-form");
+            form.reset();
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                submitRecipe();
+            });
+        } //fix submit updating  the loadprofile
     }
 }
 
