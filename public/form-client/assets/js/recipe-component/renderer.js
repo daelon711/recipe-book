@@ -41,12 +41,12 @@ function renderRecipes(recipes) {
         const ingredientsArray = recipe.ingredients
             .map(
                 (item) =>
-                    `<input type="checkbox" name="${item.ingredient}" value="${item.ingredient}">${item.ingredient} — ${item.amount}</input>`
+                    `<li><input type="checkbox" name="${item.ingredient}" value="${item.ingredient}"><p>${item.ingredient} — ${item.amount}</p></li>`
             )
             .join("");
         //fix li list of ingredients here
         const item = `
-        <li>
+        <li id="recipe">
             <h3>${recipe.title}</h3>
             <p>${recipe.description}</p>
 
@@ -54,7 +54,11 @@ function renderRecipes(recipes) {
                 ${ingredientsArray}
             </ul>
             <p>${recipe.instructions}</p>
+            <div>
             <button type="button" class="delete-recipe-btn" data-id="${recipe.id}">Delete</button>
+            <button type="button" class="edit-recipe-btn" data-id="${recipe.id}">Edit</button>
+            
+            </div>
         </li>`;
 
         $container.insertAdjacentHTML("beforeend", item);
