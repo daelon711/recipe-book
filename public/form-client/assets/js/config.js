@@ -1,5 +1,5 @@
 function returnUrl() {
-    return `https://form-server.test`;
+    return window.location.origin;
 }
 
 function getCookie(name) {
