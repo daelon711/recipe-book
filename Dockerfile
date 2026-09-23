@@ -5,7 +5,7 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN apt-get update && apt-get install -y zip unzip git libzip-dev nginx \
-    && docker-php-ext-install pdo pdo_mysql zip \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer install --no-dev --optimize-autoloader
 
@@ -14,7 +14,7 @@ COPY nginx.conf /etc/nginx/sites-available/default
 RUN chmod -R 775 storage bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
-RUN touch /var/www/html/database/database.sqlite
+RUN php artisan migrate --force
 
 EXPOSE 80
 
