@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return ['Laravel' => app()->version()];
-});
+Route::redirect('/', '/form-client/index.html');
 
 require __DIR__.'/auth.php';
