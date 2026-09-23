@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y zip unzip git libzip-dev libpq-dev ngin
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && rm -rf /var/lib/apt/lists/*
 
+RUN echo "clear_env = no" >> /usr/local/etc/php-fpm.d/www.conf
+
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
@@ -18,5 +20,4 @@ RUN chmod -R 775 storage bootstrap/cache \
 
 EXPOSE 80
 
-# Migrate at runtime, when the DB is reachable
 CMD php artisan migrate --force && service nginx start && php-fpm
